@@ -1,0 +1,29 @@
+{
+  "name": "aurelia-cordova",
+  "version": "1.0.0",
+  "description": "An application to test aurelia with cordova running on top of the MEAN stack",
+  "main": "server/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Rich Gomez <0xkione@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "browser-sync": "^2.15.0",
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^2.0.12",
+    "gulp-concat": "^2.6.0",
+    "gulp-eslint": "^3.0.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^2.3.2",
+    "gulp-uglify": "^2.0.0",
+    "gulp-watch": "^4.3.9",
+    "merge-stream": "^1.0.0",
+    "run-sequence": "^1.2.2",
+    "vinyl-paths": "^2.1.0"
+  },
+  "dependencies": {
+    "lodash": "^4.15.0"
+  }
+}

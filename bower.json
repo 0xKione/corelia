@@ -1,0 +1,18 @@
+{
+  "name": "aurelia-cordova",
+  "description": "An application to test aurelia with cordova running on top of the MEAN stack",
+  "main": "client/app.js",
+  "authors": [
+    "Rich Gomez <0xkione@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
