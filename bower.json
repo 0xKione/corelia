@@ -1,7 +1,7 @@
 {
-  "name": "aurelia-cordova",
-  "description": "An application to test aurelia with cordova running on top of the MEAN stack",
-  "main": "client/app.js",
+  "name": "corelia",
+  "description": "A project to create a MEAN stack application replacing Angular with Aurelia and using Cordova",
+  "main": "client/src/main.js",
   "authors": [
     "Rich Gomez <0xkione@gmail.com>"
   ],

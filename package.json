@@ -1,7 +1,7 @@
 {
-  "name": "aurelia-cordova",
+  "name": "corelia",
   "version": "1.0.0",
-  "description": "An application to test aurelia with cordova running on top of the MEAN stack",
+  "description": "A project to create a MEAN stack application replacing Angular with Aurelia and using Cordova",
   "main": "server/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
