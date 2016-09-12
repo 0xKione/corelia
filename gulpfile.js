@@ -2,7 +2,8 @@
 
 var gulp = require('gulp');
 
-var assign = Object.assign || require('object.assign')
+var assign = Object.assign || require('object.assign');
+var browserSync = require('browser-sync').create();
 var concat = require('gulp-concat');
 var cssmin = require('gulp-clean-css');
 var del = require('del');
@@ -13,9 +14,19 @@ var rename = require('gulp-rename');
 var runSequence = require('run-sequence');
 var sass = require('gulp-sass');
 var vinylPaths = require('vinyl-paths');
+var watch = require('gulp-watch');
 
 var clientRoot = './client/';
 var serverRoot = './server/';
+
+var watchedFiles = [
+  clientRoot + 'index.html', 
+  clientRoot + 'src/*.js', 
+  clientRoot + 'src/**/*.js', 
+  clientRoot + 'src/*.html', 
+  clientRoot + 'src/**/*.html', 
+  clientRoot + 'src/assets/sass/*.scss'
+];
 
 gulp.task('clean', function() {
   return gulp.src(clientRoot + 'www/')
@@ -56,6 +67,25 @@ gulp.task('minify-js', function() {
 gulp.task('minify-css', function() {
   // Needed?
   console.log('minify-css');
+});
+
+gulp.task('reload', ['default'], function(done) {
+  browserSync.reload();
+  done();
+});
+
+gulp.task('dev', function() {
+  gulp.start('default');  // Run the default Gulp task
+
+  // Deploy a Browser Sync server
+  browserSync.init({
+    server: {
+      baseDir: './client/www/'
+    }
+  });
+
+  // Watch for changes
+  gulp.watch(watchedFiles, ['reload']);
 });
 
 gulp.task('default',function(callback) {

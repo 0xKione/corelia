@@ -1,4 +1,4 @@
-import {Todo} from './todo';
+import {Todo} from './lib/todo';
 
 export class App {
   constructor() {

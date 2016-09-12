@@ -49,9 +49,7 @@ $ cordova platform add ios --save
 ### Web
 ```sh
 $ cd path/to/repo
-$ gulp
-$ cd client/www
-$ http-server -o
+$ gulp serve
 ```
 
 ### Android
