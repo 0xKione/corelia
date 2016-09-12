@@ -23,7 +23,7 @@ gulp.task('clean', function() {
 });
 
 gulp.task('build', function() {
-  var index = gulp.src([clientRoot + 'index.html', clientRoot + 'jsconfig.json'])
+  var index = gulp.src([clientRoot + 'index.html', clientRoot + 'jsconfig.json', clientRoot + 'src/.gitkeep'])
     .pipe(gulp.dest(clientRoot + 'www/'));
 
   var files = gulp.src(clientRoot + 'src/**/*')

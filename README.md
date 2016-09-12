@@ -30,6 +30,7 @@ $ gulp
 ### Install Cordova Platforms
 #### Android
 Follow the [Android Guide](https://cordova.apache.org/docs/en/latest/guide/platforms/android/index.html#requirements-and-support)
+(Make sure to use JDK 1.8)
 ```sh
 $ cd path/to/repo
 $ cd client
@@ -56,6 +57,7 @@ $ http-server -o
 ### Android
 ```sh
 $ cd path/to/repo
+$ gulp
 
 # Verify platform requirements are met
 $ cordova requirements
@@ -66,6 +68,7 @@ $ cordova emulate android
 ### iOS
 ```sh
 $ cd path/to/repo
+$ gulp
 
 # Verify platform requirements are met
 $ cordova requirements
