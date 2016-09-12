@@ -1,8 +1,10 @@
 bower_components
 node_modules
-client/platforms
-client/plugins
-client/www
 client/bower_components
 client/build/reports
 **/.DS_Store
+
+syntax: regex
+^client/platforms/(?!.gitkeep$)
+^client/plugins/(?!.gitkeep$)
+^client/www/(?!.gitkeep$)

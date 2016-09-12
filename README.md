@@ -32,6 +32,7 @@ $ gulp
 Follow the [Android Guide](https://cordova.apache.org/docs/en/latest/guide/platforms/android/index.html#requirements-and-support)
 ```sh
 $ cd path/to/repo
+$ cd client
 $ cordova platform add android --save
 ```
 
@@ -39,6 +40,7 @@ $ cordova platform add android --save
 Follow the [iOS Guide](https://cordova.apache.org/docs/en/latest/guide/platforms/ios/index.html#requirements-and-support)
 ```sh
 $ cd path/to/repo
+$ cd client
 $ cordova platform add ios --save
 ```
 
