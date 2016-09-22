@@ -8,4 +8,7 @@ client/www
 !client/www/.gitkeep
 **/.DS_Store
 
+server/data
+!server/data/.gitkeep
+
 

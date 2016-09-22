@@ -10,6 +10,7 @@ var del = require('del');
 var jsmin = require('gulp-uglify');
 var lint = require('gulp-eslint');
 var merge = require('merge-stream');
+var nodemon = require('gulp-nodemon');
 var rename = require('gulp-rename');
 var runSequence = require('run-sequence');
 var sass = require('gulp-sass');
@@ -69,23 +70,29 @@ gulp.task('minify-css', function() {
   console.log('minify-css');
 });
 
-gulp.task('reload', ['default'], function(done) {
+gulp.task('reload-client', ['default'], function(done) {
   browserSync.reload();
   done();
 });
 
-gulp.task('dev', function() {
-  gulp.start('default');  // Run the default Gulp task
-
-  // Deploy a Browser Sync server
-  browserSync.init({
-    server: {
-      baseDir: './client/www/'
+gulp.task('reload-server', function(callback) {
+  var callbackTriggered = false;
+  return nodemon({ script: serverRoot + 'main.js' }).on('start', function() {
+    if (!callbackTriggered) {
+      callbackTriggered = true;
+      callback();
     }
+  });
+});
+
+gulp.task('dev', ['reload-server', 'default'], function() {
+  // Deploy a Browser Sync server
+  browserSync.init(null, {
+    proxy: 'http://localhost:8080'
   });
 
   // Watch for changes
-  gulp.watch(watchedFiles, ['reload']);
+  gulp.watch(watchedFiles, ['reload-client']);
 });
 
 gulp.task('default',function(callback) {
