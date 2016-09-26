@@ -1,11 +1,15 @@
 bower_components
 node_modules
+*.map
+
+client/bundles
+client/dist
+client/jspm_packages
 client/platforms
 !client/platforms/.gitkeep
 client/plugins
 !client/plugins/.gitkeep
 client/www
-!client/www/.gitkeep
 **/.DS_Store
 
 server/data

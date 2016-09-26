@@ -1,24 +1,35 @@
 'use strict';
 
+// Dependencies
+////////////////////////////////////////////////////////////////////////////////
 var gulp = require('gulp');
 
-var assign = Object.assign || require('object.assign');
+var babel = require('gulp-babel');
 var browserSync = require('browser-sync').create();
+var bundler = require('aurelia-bundler');
+var changedInPlace = require('gulp-changed-in-place');
 var concat = require('gulp-concat');
-var cssmin = require('gulp-clean-css');
 var del = require('del');
 var jsmin = require('gulp-uglify');
-var lint = require('gulp-eslint');
+var eslint = require('gulp-eslint');
+var htmlMin = require('gulp-htmlmin');
 var merge = require('merge-stream');
 var nodemon = require('gulp-nodemon');
+var notify = require('gulp-notify');
+var plumber = require('gulp-plumber');
 var rename = require('gulp-rename');
 var runSequence = require('run-sequence');
 var sass = require('gulp-sass');
+var sourceMaps = require('gulp-sourcemaps');
 var vinylPaths = require('vinyl-paths');
 var watch = require('gulp-watch');
 
+// Filepath Variables
+////////////////////////////////////////////////////////////////////////////////
 var clientRoot = './client/';
 var serverRoot = './server/';
+var clientTemp = clientRoot + 'dist/';
+var clientOut = clientRoot + 'www/';
 
 var watchedFiles = [
   clientRoot + 'index.html', 
@@ -29,53 +40,113 @@ var watchedFiles = [
   clientRoot + 'src/assets/sass/*.scss'
 ];
 
+// Configuration Variables
+////////////////////////////////////////////////////////////////////////////////
+var bundleConfig = {
+  force: true,
+  baseURL: './client/',
+  configPath: './client/config.js',
+  packagePath: '.',
+  bundles: {
+    "bundles/app-bundle": {
+      includes: [
+        'dist/**/*.js',
+        'dist/**/*.html!text'
+      ],
+      excludes: [
+        //'dist/services/*-mock.js'   // Uncomment me for real back-end
+        'dist/services/*-mock.js'    // Uncomment me for mock back-end (FIX)
+      ],
+      options: {
+        inject: true,
+        minify: false
+      }
+    },
+    "bundles/vendor-bundle": {
+      includes: [
+        'aurelia-bootstrapper',
+        'aurelia-fetch-client',
+        'aurelia-router',
+        'aurelia-animator-css',
+        'aurelia-templating-binding',
+        'aurelia-templating-resources',
+        'aurelia-templating-router',
+        'aurelia-loader-default',
+        'aurelia-history-browser',
+        'aurelia-logging-console',
+        'bootstrap/css/bootstrap.css!text'
+      ],
+      options: {
+        inject: true,
+        minify: false
+      }
+    }
+  }
+};
+
+// Private Tasks
+////////////////////////////////////////////////////////////////////////////////
 gulp.task('clean', function() {
-  return gulp.src(clientRoot + 'www/')
+  return gulp.src([clientOut, clientTemp])
     .pipe(vinylPaths(del));
 });
 
-gulp.task('build', function() {
-  var index = gulp.src([clientRoot + 'index.html', clientRoot + 'jsconfig.json', clientRoot + 'src/.gitkeep'])
-    .pipe(gulp.dest(clientRoot + 'www/'));
+gulp.task('sass', function() {
+  return gulp.src([clientRoot + 'src/assets/sass/*.scss', clientRoot + 'src/assets/sass/**/*.scss'])
+    .pipe(sass().on('error', sass.logError))
+    .pipe(rename('styles.css'))
+    .pipe(gulp.dest(clientOut + 'css/'));
+});
 
-  var files = gulp.src(clientRoot + 'src/**/*')
-    .pipe(gulp.dest(clientRoot + 'www/files/'));
-
-  var scripts = gulp.src(clientRoot + 'scripts/**/*')
-    .pipe(gulp.dest(clientRoot + 'www/scripts/'));
-
-  return merge(index, files, scripts);
+gulp.task('html', function() {
+  return gulp.src([clientRoot + 'src/*.html', clientRoot + 'src/**/*.html'])
+    .pipe(htmlMin({collapseWhitespace: true}))
+    .pipe(gulp.dest(clientTemp));
 });
 
 gulp.task('lint', function() {
-  // Needed?
-  console.log('lint');
+  return gulp.src([clientRoot + 'src/*.js', clientRoot + 'src/**/*.js'])
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError());
 });
 
-gulp.task('sass', function() {
-  // return gulp.src(clientRoot + 'src/assets/sass')
-  //   .pipe(sass().on('error', sass.logError))
-  //   .pipe(rename('styles.css'))
-  //   .pipe(gulp.dest(clientRoot + 'www/css'));
-  console.log('sass');
+gulp.task('transpile', function() {
+  return gulp.src([clientRoot + 'src/*.js', clientRoot + 'src/**/*.js'])
+    .pipe(plumber({errorHandler: notify.onError('Error: <%= error.message %>')}))
+    .pipe(changedInPlace({firstPass: true}))
+    .pipe(sourceMaps.init())
+    .pipe(babel({ 'plugins': [ 'transform-es2015-modules-systemjs' ] }))
+    .pipe(gulp.dest(clientTemp));
 });
 
-gulp.task('minify-js', function() {
-  // Needed?
-  console.log('minify-js');
+gulp.task('build', function() {
+  var index = gulp.src([clientRoot + 'index.html', clientRoot + 'jsconfig.json', clientRoot + 'config.js', clientRoot + 'config.xml', clientRoot + 'favicon.ico'])
+    .pipe(gulp.dest(clientOut));
+
+  var jspm = gulp.src(clientRoot + 'jspm_packages/**/*')
+    .pipe(gulp.dest(clientOut + 'jspm_packages/'));
+
+  var bundles = gulp.src(clientRoot + 'bundles/**/*')
+    .pipe(gulp.dest(clientOut + 'bundles/'));
+
+  return merge(index, jspm, bundles);
 });
 
-gulp.task('minify-css', function() {
-  // Needed?
-  console.log('minify-css');
+gulp.task('bundle', function() {
+  return bundler.bundle(bundleConfig);
 });
+
+gulp.task('unbundle', function() {
+  return bundler.unbundle(bundleConfig);
+})
 
 gulp.task('reload-client', ['default'], function(done) {
   browserSync.reload();
   done();
 });
 
-gulp.task('reload-server', function(callback) {
+gulp.task('reload-server', ['default'], function(callback) {
   var callbackTriggered = false;
   return nodemon({ script: serverRoot + 'main.js' }).on('start', function() {
     if (!callbackTriggered) {
@@ -85,7 +156,9 @@ gulp.task('reload-server', function(callback) {
   });
 });
 
-gulp.task('dev', ['reload-server', 'default'], function() {
+// Public Tasks
+////////////////////////////////////////////////////////////////////////////////
+gulp.task('dev', ['reload-server'], function() {
   // Deploy a Browser Sync server
   browserSync.init(null, {
     proxy: 'http://localhost:8080'
@@ -95,11 +168,12 @@ gulp.task('dev', ['reload-server', 'default'], function() {
   gulp.watch(watchedFiles, ['reload-client']);
 });
 
-gulp.task('default',function(callback) {
+gulp.task('default', function(callback) {
   return runSequence(
     'clean',
-    'sass',
-    'lint',
+    ['lint', 'sass', 'html'],
+    'transpile',
+    'bundle',
     'build',
     callback
   );

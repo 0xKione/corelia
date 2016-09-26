@@ -14,5 +14,11 @@
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "font-awesome": "^4.6.3",
+    "requirejs": "^2.3.2",
+    "bootstrap": "^3.3.7",
+    "text": "requirejs-text#^2.0.15"
+  }
 }

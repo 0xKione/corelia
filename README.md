@@ -2,7 +2,7 @@
 A project to create a MEAN stack application replacing Angular with Aurelia and using Cordova
 
 ## Latest Version
-1.0.0
+1.1.0
 
 ## Setting up Environment
 
@@ -23,6 +23,7 @@ $ npm install -g http-server
 ```sh
 $ cd path/to/repo
 $ npm install
+$ jspm install
 $ bower install
 $ gulp
 ```

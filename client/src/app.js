@@ -2,7 +2,7 @@ import {Todo} from './lib/todo';
 
 export class App {
   constructor() {
-    this.heading = "Todos";
+    this.heading = 'Todos';
     this.todos = [];
     this.todoDescription = '';
   }
