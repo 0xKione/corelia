@@ -28,6 +28,7 @@ var watch = require('gulp-watch');
 ////////////////////////////////////////////////////////////////////////////////
 var clientRoot = './client/';
 var serverRoot = './server/';
+var clientBundles = clientRoot + 'bundles/';
 var clientTemp = clientRoot + 'dist/';
 var clientOut = clientRoot + 'www/';
 
@@ -55,7 +56,7 @@ var bundleConfig = {
       ],
       excludes: [
         //'dist/services/*-mock.js'   // Uncomment me for real back-end
-        'dist/services/*-mock.js'    // Uncomment me for mock back-end (FIX)
+        //'dist/services/*.js'    // Uncomment me for mock back-end
       ],
       options: {
         inject: true,
@@ -87,7 +88,7 @@ var bundleConfig = {
 // Private Tasks
 ////////////////////////////////////////////////////////////////////////////////
 gulp.task('clean', function() {
-  return gulp.src([clientOut, clientTemp])
+  return gulp.src([clientOut, clientTemp, clientBundles])
     .pipe(vinylPaths(del));
 });
 
@@ -114,23 +115,29 @@ gulp.task('lint', function() {
 gulp.task('transpile', function() {
   return gulp.src([clientRoot + 'src/*.js', clientRoot + 'src/**/*.js'])
     .pipe(plumber({errorHandler: notify.onError('Error: <%= error.message %>')}))
-    .pipe(changedInPlace({firstPass: true}))
+    .pipe(changedInPlace({ firstPass: true }))
     .pipe(sourceMaps.init())
     .pipe(babel({ 'plugins': [ 'transform-es2015-modules-systemjs' ] }))
     .pipe(gulp.dest(clientTemp));
 });
 
-gulp.task('build', function() {
+gulp.task('move', function() {
   var index = gulp.src([clientRoot + 'index.html', clientRoot + 'jsconfig.json', clientRoot + 'config.js', clientRoot + 'config.xml', clientRoot + 'favicon.ico'])
+    .pipe(changedInPlace({ firstPass: true }))
     .pipe(gulp.dest(clientOut));
 
   var jspm = gulp.src(clientRoot + 'jspm_packages/**/*')
+    .pipe(changedInPlace({ firstPass: true }))
     .pipe(gulp.dest(clientOut + 'jspm_packages/'));
 
   var bundles = gulp.src(clientRoot + 'bundles/**/*')
+    .pipe(changedInPlace({ firstPass: true }))
     .pipe(gulp.dest(clientOut + 'bundles/'));
 
-  return merge(index, jspm, bundles);
+  var images = gulp.src(clientRoot + 'src/assets/images/**/*')
+    .pipe(gulp.dest(clientOut + 'images/'));
+
+  return merge(index, jspm, bundles, images);
 });
 
 gulp.task('bundle', function() {
@@ -141,7 +148,7 @@ gulp.task('unbundle', function() {
   return bundler.unbundle(bundleConfig);
 })
 
-gulp.task('reload-client', ['default'], function(done) {
+gulp.task('reload-client', ['build'], function(done) {
   browserSync.reload();
   done();
 });
@@ -168,12 +175,19 @@ gulp.task('dev', ['reload-server'], function() {
   gulp.watch(watchedFiles, ['reload-client']);
 });
 
-gulp.task('default', function(callback) {
+gulp.task('build', function(callback) {
   return runSequence(
-    'clean',
     ['lint', 'sass', 'html'],
     'transpile',
     'bundle',
+    'move',
+    callback
+  );
+});
+
+gulp.task('default', function(callback) {
+  return runSequence(
+    'clean',
     'build',
     callback
   );

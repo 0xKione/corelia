@@ -15,6 +15,9 @@
     "test",
     "tests"
   ],
+  "directories": {
+    "baseURL": "./client"
+  },
   "dependencies": {
     "font-awesome": "^4.6.3",
     "requirejs": "^2.3.2",
