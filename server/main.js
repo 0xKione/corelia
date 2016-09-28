@@ -8,7 +8,7 @@ var mongoose = require('mongoose');
 var path = require('path');
 
 // Get the database config
-var db = require('./config/db');
+var db = require('./src/config/db');
 
 // Set the port
 var port = process.env.PORT || 8080;
@@ -28,7 +28,7 @@ app.use(methodOverride('X-HTTP-Method-Override'));
 app.use(express.static(path.resolve('./client/www')));
 
 // Configure the routes
-require('./app/routes')(app);
+require('./src/routes')(app);
 
 // Start the app and export it
 app.listen(port);

@@ -54,10 +54,6 @@ var bundleConfig = {
         'dist/**/*.js',
         'dist/**/*.html!text'
       ],
-      excludes: [
-        //'dist/services/*-mock.js'   // Uncomment me for real back-end
-        //'dist/services/*.js'    // Uncomment me for mock back-end
-      ],
       options: {
         inject: true,
         minify: false
