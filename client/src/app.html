@@ -1,7 +1,23 @@
 <template>
-  <require from='./components/todo-list'></require>
+  <require from='./components/contact-list'></require>
 
-  <h1>${heading}</h1>
+  <nav class='navbar navbar-default navbar-fixed-top' role='navigation'>
+    <div class='navbar-header'>
+      <a class='navbar-brand' href='#'>
+        <i class='fa fa-user'></i>
+        <span>Contacts</span>
+      </a>
+    </div>
 
-  <todo-list></todo-list>
+    <div class='pull-right' if.bind='router.isNavigating || contactService.isRequesting'>
+      <i class='loading-icon fa fa-spinner fa-spin'></i>
+    </div>
+  </nav>
+
+  <div class='container'>
+    <div class='row'>
+      <contact-list class='col-md-4'></contact-list>
+      <router-view class='col-md-8'></router-view>
+    </div>
+  </div>
 </template>

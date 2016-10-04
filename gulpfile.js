@@ -28,6 +28,8 @@ var watch = require('gulp-watch');
 ////////////////////////////////////////////////////////////////////////////////
 var clientRoot = './client/';
 var serverRoot = './server/';
+var jspmRoot = './client/jspm_packages/';
+
 var clientBundles = clientRoot + 'bundles/';
 var clientTemp = clientRoot + 'dist/';
 var clientOut = clientRoot + 'www/';
@@ -41,6 +43,11 @@ var watchedFiles = [
   clientRoot + 'src/assets/sass/*.scss'
 ];
 
+var fontFiles = [
+  jspmRoot + 'github/twbs/bootstrap*/fonts/*',
+  jspmRoot + 'npm/font-awesome*/fonts/*'
+]
+
 // Configuration Variables
 ////////////////////////////////////////////////////////////////////////////////
 var bundleConfig = {
@@ -52,7 +59,8 @@ var bundleConfig = {
     "bundles/app-bundle": {
       includes: [
         'dist/**/*.js',
-        'dist/**/*.html!text'
+        'dist/**/*.html!text',
+        'dist/css/*'
       ],
       options: {
         inject: true,
@@ -71,11 +79,13 @@ var bundleConfig = {
         'aurelia-loader-default',
         'aurelia-history-browser',
         'aurelia-logging-console',
-        'bootstrap/css/bootstrap.css!text'
+        'bootstrap',
+        'bootstrap/css/bootstrap.css',
+        'font-awesome/css/font-awesome.css'
       ],
       options: {
         inject: true,
-        minify: false
+        minify: true
       }
     }
   }
@@ -92,7 +102,7 @@ gulp.task('sass', function() {
   return gulp.src([clientRoot + 'src/assets/sass/*.scss', clientRoot + 'src/assets/sass/**/*.scss'])
     .pipe(sass().on('error', sass.logError))
     .pipe(rename('styles.css'))
-    .pipe(gulp.dest(clientOut + 'css/'));
+    .pipe(gulp.dest(clientTemp + 'css/'));
 });
 
 gulp.task('html', function() {
@@ -133,7 +143,10 @@ gulp.task('move', function() {
   var images = gulp.src(clientRoot + 'src/assets/images/**/*')
     .pipe(gulp.dest(clientOut + 'images/'));
 
-  return merge(index, jspm, bundles, images);
+  var fonts = gulp.src(fontFiles)
+    .pipe(gulp.dest(clientOut + 'fonts/'));
+
+  return merge(index, jspm, bundles, images, fonts);
 });
 
 gulp.task('bundle', function() {

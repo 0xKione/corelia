@@ -1,9 +1,9 @@
 import {HttpClient} from 'aurelia-http-client';
+import {inject} from 'aurelia-framework';
 
+@inject(HttpClient)
 export class BaseService
 {
-  static inject() { return [HttpClient]; }
-
   constructor(http) {
     this.isRequesting = false;
 

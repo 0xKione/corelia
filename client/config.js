@@ -8,7 +8,9 @@ System.config({
   },
   bundles: {
     "bundles/vendor-bundle.js": [
-      "github:twbs/bootstrap@3.3.7/css/bootstrap.css!github:systemjs/plugin-text@0.0.8.js",
+      "github:twbs/bootstrap@3.3.7.js",
+      "github:twbs/bootstrap@3.3.7/css/bootstrap.css",
+      "github:twbs/bootstrap@3.3.7/js/bootstrap.js",
       "npm:aurelia-animator-css@1.0.0.js",
       "npm:aurelia-animator-css@1.0.0/aurelia-animator-css.js",
       "npm:aurelia-binding@1.0.0.js",
@@ -88,31 +90,64 @@ System.config({
       "npm:aurelia-templating-router@1.0.0/route-loader.js",
       "npm:aurelia-templating-router@1.0.0/router-view.js",
       "npm:aurelia-templating@1.0.0.js",
-      "npm:aurelia-templating@1.0.0/aurelia-templating.js"
+      "npm:aurelia-templating@1.0.0/aurelia-templating.js",
+      "npm:font-awesome@4.6.3/css/font-awesome.css",
+      "npm:jquery@2.2.4.js",
+      "npm:jquery@2.2.4/dist/jquery.js"
     ],
     "bundles/app-bundle.js": [
       "dist/app.html!github:systemjs/plugin-text@0.0.8.js",
       "dist/app.js",
-      "dist/components/todo-list.html!github:systemjs/plugin-text@0.0.8.js",
-      "dist/components/todo-list.js",
-      "dist/lib/models/todo.js",
-      "dist/lib/notifications.js",
-      "dist/lib/utility.js",
+      "dist/components/contact-list.html!github:systemjs/plugin-text@0.0.8.js",
+      "dist/components/contact-list.js",
+      "dist/css/styles.css",
+      "dist/lib/contact-events.js",
+      "dist/lib/models/contact.js",
       "dist/main.js",
+      "dist/pages/contact-detail.html!github:systemjs/plugin-text@0.0.8.js",
+      "dist/pages/contact-detail.js",
+      "dist/pages/no-selection.html!github:systemjs/plugin-text@0.0.8.js",
+      "dist/pages/no-selection.js",
+      "dist/resources/index.js",
+      "dist/resources/loading-icon.html!github:systemjs/plugin-text@0.0.8.js",
       "dist/services/base-service.js",
-      "dist/services/todo-service-mock.js",
+      "dist/services/contact-service-mock.js",
       "dist/services/todo-service.js",
+      "npm:aurelia-binding@1.0.0.js",
+      "npm:aurelia-binding@1.0.0/aurelia-binding.js",
+      "npm:aurelia-dependency-injection@1.0.0.js",
+      "npm:aurelia-dependency-injection@1.0.0/aurelia-dependency-injection.js",
+      "npm:aurelia-event-aggregator@1.0.0.js",
+      "npm:aurelia-event-aggregator@1.0.0/aurelia-event-aggregator.js",
+      "npm:aurelia-framework@1.0.0.js",
+      "npm:aurelia-framework@1.0.0/aurelia-framework.js",
       "npm:aurelia-http-client@1.0.0.js",
       "npm:aurelia-http-client@1.0.0/aurelia-http-client.js",
+      "npm:aurelia-loader@1.0.0.js",
+      "npm:aurelia-loader@1.0.0/aurelia-loader.js",
+      "npm:aurelia-logging@1.0.0.js",
+      "npm:aurelia-logging@1.0.0/aurelia-logging.js",
+      "npm:aurelia-metadata@1.0.0.js",
+      "npm:aurelia-metadata@1.0.0/aurelia-metadata.js",
       "npm:aurelia-pal@1.0.0.js",
       "npm:aurelia-pal@1.0.0/aurelia-pal.js",
       "npm:aurelia-path@1.1.1.js",
-      "npm:aurelia-path@1.1.1/aurelia-path.js"
+      "npm:aurelia-path@1.1.1/aurelia-path.js",
+      "npm:aurelia-task-queue@1.0.0.js",
+      "npm:aurelia-task-queue@1.0.0/aurelia-task-queue.js",
+      "npm:aurelia-templating@1.0.0.js",
+      "npm:aurelia-templating@1.0.0/aurelia-templating.js"
     ]
+  },
+  meta: {
+    "*.css": {
+      "loader": "css"
+    }
   },
   map: {
     "aurelia-animator-css": "npm:aurelia-animator-css@1.0.0",
     "aurelia-bootstrapper": "npm:aurelia-bootstrapper@1.0.0",
+    "aurelia-event-aggregator": "npm:aurelia-event-aggregator@1.0.0",
     "aurelia-fetch-client": "npm:aurelia-fetch-client@1.0.0",
     "aurelia-framework": "npm:aurelia-framework@1.0.0",
     "aurelia-history-browser": "npm:aurelia-history-browser@1.0.0",
@@ -127,6 +162,7 @@ System.config({
     "aurelia-templating-router": "npm:aurelia-templating-router@1.0.0",
     "bluebird": "npm:bluebird@3.4.1",
     "bootstrap": "github:twbs/bootstrap@3.3.7",
+    "css": "github:systemjs/plugin-css@0.1.30",
     "fetch": "github:github/fetch@1.0.0",
     "font-awesome": "npm:font-awesome@4.6.3",
     "jquery": "npm:jquery@2.2.4",
@@ -290,7 +326,7 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:font-awesome@4.6.3": {
-      "css": "github:systemjs/plugin-css@0.1.25"
+      "css": "github:systemjs/plugin-css@0.1.30"
     },
     "npm:inherits@2.0.1": {
       "util": "github:jspm/nodelibs-util@0.1.0"

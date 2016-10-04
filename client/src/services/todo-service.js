@@ -1,6 +1,4 @@
 import {BaseService} from './base-service';
-
-import {Todo} from './../lib/models/todo';
 import {HttpClient} from 'aurelia-http-client';
 
 
@@ -23,7 +21,7 @@ export class TodoService extends BaseService
       this.http.get('api/todos/')
         .then(data => {
           let results = data.map(t => {
-            return new Todo(t._id, t.description, t.done);
+            return { id: t._id, desc: t.description, done: t.done };
           });
 
           this.isRequesting = false;
