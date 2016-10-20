@@ -1,5 +1,5 @@
 import {EventAggregator} from 'aurelia-event-aggregator';
-import {ContactService} from '../services/contact-service-mock';
+import {ContactService} from '../services/contact-service';
 import {ContactUpdated, ContactViewed} from '../lib/contact-events';
 import {inject} from 'aurelia-framework';
 

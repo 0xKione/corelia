@@ -9,6 +9,9 @@ client/platforms
 !client/platforms/.gitkeep
 client/plugins
 !client/plugins/.gitkeep
+client/src/services/*
+!client/src/services/base-service.js
+!client/src/services/**/
 client/www
 **/.DS_Store
 

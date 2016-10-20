@@ -4,6 +4,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 var gulp = require('gulp');
 
+var argv = require('yargs').argv;
 var babel = require('gulp-babel');
 var browserSync = require('browser-sync').create();
 var bundler = require('aurelia-bundler');
@@ -12,6 +13,7 @@ var concat = require('gulp-concat');
 var del = require('del');
 var jsmin = require('gulp-uglify');
 var eslint = require('gulp-eslint');
+var gulpIf = require('gulp-if');
 var htmlMin = require('gulp-htmlmin');
 var merge = require('merge-stream');
 var nodemon = require('gulp-nodemon');
@@ -94,7 +96,7 @@ var bundleConfig = {
 // Private Tasks
 ////////////////////////////////////////////////////////////////////////////////
 gulp.task('clean', function() {
-  return gulp.src([clientOut, clientTemp, clientBundles])
+  return gulp.src([clientOut, clientTemp, clientBundles, clientRoot + 'src/services/*.js', '!' + clientRoot + 'src/services/base-service.js'])
     .pipe(vinylPaths(del));
 });
 
@@ -118,8 +120,13 @@ gulp.task('lint', function() {
     .pipe(eslint.failAfterError());
 });
 
+gulp.task('services', function() {
+  return gulp.src(argv.mock ? clientRoot + 'src/services/mock/*.js' : clientRoot + 'src/services/real/*.js')
+    .pipe(gulp.dest(clientRoot + 'src/services/'));
+});
+
 gulp.task('transpile', function() {
-  return gulp.src([clientRoot + 'src/*.js', clientRoot + 'src/**/*.js'])
+  return gulp.src([clientRoot + 'src/*.js', clientRoot + 'src/**/*.js', '!' + clientRoot + 'src/services/mock/*.js', '!' + clientRoot + 'src/services/real/*.js'])
     .pipe(plumber({errorHandler: notify.onError('Error: <%= error.message %>')}))
     .pipe(changedInPlace({ firstPass: true }))
     .pipe(sourceMaps.init())
@@ -187,6 +194,7 @@ gulp.task('dev', ['reload-server'], function() {
 gulp.task('build', function(callback) {
   return runSequence(
     ['lint', 'sass', 'html'],
+    'services',
     'transpile',
     'bundle',
     'move',

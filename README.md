@@ -50,7 +50,8 @@ $ cordova platform add ios --save
 ### Web
 ```sh
 $ cd path/to/repo
-$ gulp dev
+$ gulp dev          // Run with real back-end
+$ gulp dev --mock   // Run with fake back-end
 ```
 
 ### Android

@@ -1,4 +1,4 @@
-import {ContactService} from './services/contact-service-mock';
+import {ContactService} from './services/contact-service';
 import {inject} from 'aurelia-framework';
 
 @inject(ContactService)

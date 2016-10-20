@@ -1,8 +1,9 @@
 import {BaseService} from './base-service';
 import {HttpClient} from 'aurelia-http-client';
 
+import {Contact} from '../lib/models/contact';
 
-export class TodoService extends BaseService
+export class ContactService extends BaseService
 {
   static inject() { return [HttpClient]; }
 
@@ -10,7 +11,7 @@ export class TodoService extends BaseService
     super(http);
   }
 
-  getTodos() {
+  getContactList() {
     if (this.isRequesting) {
       return;
     }
@@ -18,10 +19,10 @@ export class TodoService extends BaseService
     this.isRequesting = true;
 
     return new Promise((resolve, reject) => {
-      this.http.get('api/todos/')
+      this.http.get('api/contacts/')
         .then(data => {
-          let results = data.map(t => {
-            return { id: t._id, desc: t.description, done: t.done };
+          let results = data.map(c => {
+            return new Contact(c._id, c.firstName, c.lastName, c.email, c.phoneNumber);
           });
 
           this.isRequesting = false;
@@ -34,7 +35,7 @@ export class TodoService extends BaseService
     });
   }
 
-  addTodo(description) {
+  getContactDetails(contactId) {
     if (this.isRequesting) {
       return;
     }
@@ -42,7 +43,7 @@ export class TodoService extends BaseService
     this.isRequesting = true;
 
     return new Promise((resolve, reject) => {
-      this.http.post('api/todos/', { description: description, done: false })
+      this.http.get('api/contacts/' + contactId)
         .then(data => {
           this.isRequesting = false;
           resolve(data);
@@ -54,7 +55,7 @@ export class TodoService extends BaseService
     });
   }
 
-  removeTodo(todo) {
+  saveContact(contact) {
     if (this.isRequesting) {
       return;
     }
@@ -62,7 +63,7 @@ export class TodoService extends BaseService
     this.isRequesting = true;
 
     return new Promise((resolve, reject) => {
-      this.http.delete('api/todos/' + todo.id)
+      this.http.post('api/contacts/' + contact.id, contact)
         .then(data => {
           this.isRequesting = false;
           resolve(data);

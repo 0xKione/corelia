@@ -27,10 +27,12 @@
     "browser-sync": "^2.15.0",
     "del": "^2.2.2",
     "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
     "gulp-changed-in-place": "^2.0.3",
     "gulp-concat": "^2.6.0",
     "gulp-eslint": "^3.0.1",
     "gulp-htmlmin": "^3.0.0",
+    "gulp-if": "^2.0.1",
     "gulp-nodemon": "^2.1.0",
     "gulp-notify": "^2.2.0",
     "gulp-plumber": "^1.1.0",
@@ -44,7 +46,8 @@
     "run-sequence": "^1.2.2",
     "systemjs-plugin-css": "^0.1.30",
     "through2": "^2.0.1",
-    "vinyl-paths": "^2.1.0"
+    "vinyl-paths": "^2.1.0",
+    "yargs": "^6.2.0"
   },
   "dependencies": {
     "body-parser": "^1.15.2",
