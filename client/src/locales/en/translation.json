@@ -1,0 +1,9 @@
+{
+  "no_select_message": "Select a contact",
+  "detail_header": "Profile",
+  "detail_first_name": "First Name",
+  "detail_last_name": "Last Name",
+  "detail_email": "Email",
+  "detail_phone_number": "Phone Number",
+  "detail_save_button": "Save"
+}

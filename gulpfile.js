@@ -62,7 +62,8 @@ var bundleConfig = {
       includes: [
         'dist/**/*.js',
         'dist/**/*.html!text',
-        'dist/css/*'
+        'dist/css/*',
+        'dist/**/*.json'
       ],
       options: {
         inject: true,
@@ -81,6 +82,8 @@ var bundleConfig = {
         'aurelia-loader-default',
         'aurelia-history-browser',
         'aurelia-logging-console',
+        'aurelia-i18n',
+        'i18next-xhr-backend',
         'bootstrap',
         'bootstrap/css/bootstrap.css',
         'font-awesome/css/font-awesome.css'
@@ -152,6 +155,9 @@ gulp.task('move', function() {
 
   var fonts = gulp.src(fontFiles)
     .pipe(gulp.dest(clientOut + 'fonts/'));
+
+  var locales = gulp.src(clientRoot + 'src/locales/**/*.json')
+    .pipe(gulp.dest(clientOut + 'locales'));
 
   return merge(index, jspm, bundles, images, fonts);
 });
