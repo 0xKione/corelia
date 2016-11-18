@@ -1,4 +1,11 @@
 {
+  "welcome_message": "Hello",
+  "sign_in_message": "Sign in to access your contacts ",
+  "sign_in_button": "Login",
+  "signed_in_message": "See your contacts ",
+  "welcome_link": "Here",
+  "login_message": "Click the button to login",
+  "login_button": "Login",
   "no_select_message": "Select a contact",
   "detail_header": "Profile",
   "detail_first_name": "First Name",

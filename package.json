@@ -55,7 +55,9 @@
     "lodash": "^4.15.0",
     "method-override": "^2.3.6",
     "mongodb": "^2.2.10",
-    "mongoose": "^4.6.1"
+    "mongoose": "^4.6.1",
+    "request": "^2.78.0",
+    "require": "^2.4.20"
   },
   "jspm": {
     "directories": {
@@ -63,6 +65,7 @@
     },
     "dependencies": {
       "aurelia-animator-css": "npm:aurelia-animator-css@^1.0.0-rc.1.0.0",
+      "aurelia-auth": "npm:aurelia-auth@^3.0.4",
       "aurelia-bootstrapper": "npm:aurelia-bootstrapper@^1.0.0-rc.1.0.0",
       "aurelia-event-aggregator": "npm:aurelia-event-aggregator@^1.0.0",
       "aurelia-fetch-client": "npm:aurelia-fetch-client@^1.0.0-rc.1.0.0",
@@ -85,6 +88,7 @@
       "font-awesome": "npm:font-awesome@4.6.3",
       "i18next-xhr-backend": "npm:i18next-xhr-backend@^1.2.0",
       "jquery": "npm:jquery@^2.2.4",
+      "promise-polyfill": "github:taylorhakes/promise-polyfill@^6.0.2",
       "text": "github:systemjs/plugin-text@^0.0.8"
     },
     "devDependencies": {}

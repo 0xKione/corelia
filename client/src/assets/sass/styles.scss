@@ -4,8 +4,16 @@ section {
   margin: 0 20px;
 }
 
-a:focus {
-  outline: none;
+a {
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    text-decoration: none;
+  }
 }
 
 .navbar-nav li.loader {

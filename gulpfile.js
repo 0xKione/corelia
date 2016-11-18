@@ -83,6 +83,7 @@ var bundleConfig = {
         'aurelia-history-browser',
         'aurelia-logging-console',
         'aurelia-i18n',
+        'aurelia-auth',
         'i18next-xhr-backend',
         'bootstrap',
         'bootstrap/css/bootstrap.css',

@@ -1,5 +1,7 @@
-//import {I18N} from 'aurelia-i18n';
+import 'fetch';
 import Backend from 'i18next-xhr-backend';
+
+import config from './authentication/config';
 
 export function configure(aurelia) {
   aurelia.use
@@ -17,6 +19,9 @@ export function configure(aurelia) {
         fallbackLng: 'en',
         debug: false
       });
+    })
+    .plugin('aurelia-auth', (baseConfig) => {
+      baseConfig.configure(config);
     });
 
   aurelia.start().then(() => aurelia.setRoot());

@@ -1,0 +1,14 @@
+<template>
+  <div class='text-center'>
+    <h2>${message} ${user.username}</h2>
+    
+    <div if.bind='isAuthenticated'>
+      <div><img src=${user.profile_picture}></div>
+      <div><strong>Username: </strong>${user.username}</div>
+      <div><strong>Full Name: </strong>${user.full_name}</div>
+      <div><strong>Bio: </strong>${user.bio}</div>
+    </div>
+
+    <h3>${innerMessage}<a route-href='route: contacts' i18n='welcome_link'></a></h3>
+  </div>
+</template>

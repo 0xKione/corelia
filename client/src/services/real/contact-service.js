@@ -1,55 +1,38 @@
-import {BaseService} from './base-service';
-import {HttpClient} from 'aurelia-http-client';
+import {inject} from 'aurelia-framework';
 
+import {BaseService} from './base-service';
+import {CustomHttpClient} from '../lib/custom-http-client';
 import {Contact} from '../lib/models/contact';
 
+@inject(CustomHttpClient)
 export class ContactService extends BaseService
 {
-  static inject() { return [HttpClient]; }
-
-  constructor(http) {
-    super(http);
+  constructor(httpClient) {
+    super(httpClient);
   }
 
   getContactList() {
-    if (this.isRequesting) {
-      return;
-    }
-
-    this.isRequesting = true;
-
     return new Promise((resolve, reject) => {
-      this.http.get('api/contacts/')
+      super.makeRequest('GET', '/api/contacts')
         .then(data => {
           let results = data.map(c => {
             return new Contact(c._id, c.firstName, c.lastName, c.email, c.phoneNumber);
           });
-
-          this.isRequesting = false;
           resolve(results);
         })
         .catch(err => {
-          this.isRequesting = false;
           reject(err);
         });
     });
   }
 
   getContactDetails(contactId) {
-    if (this.isRequesting) {
-      return;
-    }
-
-    this.isRequesting = true;
-
     return new Promise((resolve, reject) => {
-      this.http.get('api/contacts/' + contactId)
+      super.makeRequest('GET', '/api/contacts/' + contactId)
         .then(data => {
-          this.isRequesting = false;
           resolve(data);
         })
         .catch(err => {
-          this.isRequesting = false;
           reject(err);
         });
     });
